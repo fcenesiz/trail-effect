@@ -58,19 +58,20 @@ public class Main extends ApplicationAdapter {
 
     private void createTrail(){
         trail = new Trail(
-                35,
-                10,
-                5,
-                0.4f,
-                0.1f,
-                new Vector2(250, 250)
+                35, // segment size
+                10, // segment length
+                5, // segment width
+                0.4f, // segment rotation lerp
+                0.1f, // trail position lerp
+                new Vector2(250, 250) // begin position
         );
 
-
+        // set start and end colors
         Color colorStart = Color.WHITE;
         Color colorEnd = new Color(1,1,1,0);
         trail.setGradientColors(colorStart, colorEnd);
 
+        // create trail
         trail.create();
 
         trail2 = new Trail(
