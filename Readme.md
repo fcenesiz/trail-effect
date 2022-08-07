@@ -1,3 +1,5 @@
+![](trailgif.gif)
+
 # Create Trail
 ```
         trail = new Trail(
