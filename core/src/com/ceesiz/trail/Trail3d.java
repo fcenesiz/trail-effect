@@ -1,14 +1,15 @@
 package com.ceesiz.trail;
 
-import com.badlogic.gdx.Gdx;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ImmediateModeRenderer20;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Trail {
+public class Trail3d {
 
     private int segmentSize;
     private float segmentLength;
@@ -16,15 +17,15 @@ public class Trail {
     private float segmentWidth;
     private float segmentLerp;
     private float positionLerp;
-    private Vector2 position;
-    private Vector2 tmpVec = new Vector2();
-    private List<Segment> segmentList = new ArrayList<>();
 
+    private Vector3 position;
+    private Vector3 tmpVec = new Vector3();
+    private List<Segment3d> segmentList = new ArrayList<>();
 
     private Color colorStart;
     private Color colorEnd;
 
-    public Trail(int segmentSize, float segmentLength, float maxSegmentLength, float segmentWidth, float segmentLerp, Vector2 position) {
+    public Trail3d(int segmentSize, float segmentLength, float maxSegmentLength, float segmentWidth, float segmentLerp, Vector3 position) {
         this.segmentSize = segmentSize;
         this.segmentLength = segmentLength;
         this.maxSegmentLength = maxSegmentLength;
@@ -34,7 +35,7 @@ public class Trail {
         this.positionLerp = 0.25f;
     }
 
-    public Trail(int segmentSize, float segmentLength, float maxSegmentLength, float segmentWidth, float segmentLerp, float positionLerp, Vector2 position) {
+    public Trail3d(int segmentSize, float segmentLength, float maxSegmentLength, float segmentWidth, float segmentLerp, float positionLerp, Vector3 position) {
         this.segmentSize = segmentSize;
         this.segmentLength = segmentLength;
         this.maxSegmentLength = maxSegmentLength;
@@ -47,25 +48,24 @@ public class Trail {
     public void create() {
         this.segmentList = new ArrayList<>();
         for (int i = 0; i < segmentSize; i++) {
-            Segment segment;
+            Segment3d segment;
             if (i == 0) {
-                segment = new Segment(
+                segment = new Segment3d(
                         this,
-                        i,
-                        20, 350,
+                        new Vector3(position),
                         segmentLerp,
                         segmentLength,
                         segmentWidth,
-                        Vector2.X
+                        new Vector3(0, 0, 1f)
                 );
             } else {
-                Segment pSegment = segmentList.get(i - 1);
+                Segment3d pSegment = segmentList.get(i - 1);
                 float width = (1f - (float) i / segmentSize) * segmentWidth;
-                segment = new Segment(
+                segment = new Segment3d(
                         this,
                         i,
-                        pSegment.d.x, pSegment.d.y,
-                        pSegment.c.x, pSegment.c.y, segmentLerp, pSegment.length, width, pSegment.direction);
+                        pSegment.d.x, pSegment.d.y, pSegment.d.z,
+                        pSegment.c.x, pSegment.c.y, pSegment.c.z,  segmentLerp, pSegment.length, width, pSegment.direction);
             }
             segmentList.add(segment);
         }
@@ -79,13 +79,14 @@ public class Trail {
         tmpVec.set(position).sub(segmentList.get(0).position);
         tmpVec.scl(-1);
 
+        segmentList.get(0).position.set(position);
 
         for (int i = 0; i < segmentList.size(); i++) {
-            Segment segment = segmentList.get(i);
+            Segment3d segment = segmentList.get(i);
             if (i == 0) {
                 segment.lerp(tmpVec);
             } else {
-                Segment pSegment = segmentList.get(i - 1);
+                Segment3d pSegment = segmentList.get(i - 1);
                 segment.lerp(segmentList.get(i - 1).direction, pSegment.c, pSegment.d);
             }
         }
@@ -108,12 +109,12 @@ public class Trail {
         this.colorEnd = color;
     }
 
-    public void setPosition(Vector2 position) {
+    public void setPosition(Vector3 position) {
         this.position.set(position);
     }
 
-    public void setPosition(float x, float y) {
-        this.position.set(x, y);
+    public void setPosition(float x, float y, float z) {
+        this.position.set(x, y, z);
     }
 
     public Color getColorEnd() {
@@ -128,7 +129,7 @@ public class Trail {
         return segmentSize;
     }
 
-    public List<Segment> getSegmentList() {
+    public List<Segment3d> getSegmentList() {
         return segmentList;
     }
 
@@ -141,4 +142,5 @@ public class Trail {
         string += "\n}";
         return string;
     }
+
 }

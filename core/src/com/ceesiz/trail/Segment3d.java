@@ -3,121 +3,135 @@ package com.ceesiz.trail;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ImmediateModeRenderer20;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 
-public class Segment {
+public class Segment3d {
 
-    private Trail trail;
+    private Trail3d trail;
     private int index;
-    Vector2 position = new Vector2();
-    Vector2 a = new Vector2();
-    Vector2 b = new Vector2();
-    Vector2 c = new Vector2();
-    Vector2 d = new Vector2();
+
+    // Settings
     float length;
-    Vector2 direction;
-    Vector2 crs = new Vector2();
     float width;
-    float lerp = 0.25f;
+    float lerp;
     Color colorStart;
     Color colorEnd;
 
-    public Segment(Trail trail, int index, float x, float y, float lerp, float length, float width, Vector2 direction) {
+    // Coordinates
+    Vector3 position;
+    Vector3 direction;
+    Vector3 up = new Vector3();
+    Vector3 cross = new Vector3();
+
+    Vector3 a = new Vector3();
+    Vector3 b = new Vector3();
+    Vector3 c = new Vector3();
+    Vector3 d = new Vector3();
+
+    public Segment3d(
+            Trail3d trail,
+            Vector3 position,
+            float lerp,
+            float length, float width,
+            Vector3 direction){
         this.trail = trail;
-        this.index = index;
-        this.position.set(position);
-        this.length = length;
-        this.direction = direction;
-        this.width = width;
+        this.index = 0;
+        this.position = position;
         this.lerp = lerp;
+        this.length = length;
+        this.width = width;
+        this.direction = direction;
+        this.up.set(Vector3.Y);
         lerpColors();
     }
 
-    public Segment(Trail trail, int index, float ax, float ay, float bx, float by, float lerp, float length, float width, Vector2 direction) {
+    public Segment3d(
+            Trail3d trail, int index,
+            float ax, float ay, float az,
+            float bx, float by, float bz,
+            float lerp,
+            float length, float width,
+            Vector3 direction){
         this.trail = trail;
         this.index = index;
-        this.a.set(ax, ay);
-        this.b.set(bx, by);
+        this.a.set(ax, ay, az);
+        this.b.set(bx, by, bz);
+        this.lerp = lerp;
         this.length = length;
         this.width = width;
-        this.lerp = lerp;
-        this.direction = new Vector2(direction);
+        this.direction = direction;
+        this.up.set(Vector3.Y);
         lerpColors(trail.getSegmentList().get(index - 1));
     }
-
 
     public void render(ImmediateModeRenderer20 renderer) {
         // TRIANGLE 1
         renderer.color(colorStart);
-        renderer.vertex(a.x, a.y, 0);
+        renderer.vertex(a.x, a.y, a.z);
         renderer.color(colorStart);
-        renderer.vertex(b.x, b.y, 0);
+        renderer.vertex(b.x, b.y, b.z);
         renderer.color(colorEnd);
-        renderer.vertex(c.x, c.y, 0);
+        renderer.vertex(c.x, c.y, c.z);
 
 
         // TRIANGLE 2
         renderer.color(colorEnd);
-        renderer.vertex(c.x, c.y, 0);
+        renderer.vertex(c.x, c.y, c.z);
         renderer.color(colorEnd);
-        renderer.vertex(d.x, d.y, 0);
+        renderer.vertex(d.x, d.y, d.z);
         renderer.color(colorStart);
-        renderer.vertex(a.x, a.y, 0);
+        renderer.vertex(a.x, a.y, a.z);
     }
 
-    public void lerp(Vector2 targetDirection) {
+    public void lerp(Vector3 targetDirection) {
+        normalizeUp();
         this.direction.lerp(targetDirection, lerp);
-        this.crs.set(direction.nor()).rotateDeg(90);
+
         this.direction.setLength(length);
-        this.crs.setLength(width * 0.5f);
+        this.cross.setLength(width * 0.5f);
 
         a.set(position);
-        a.add(crs);
+        a.add(cross);
 
         b.set(position);
-        b.sub(crs);
+        b.sub(cross);
 
         c.set(position);
         c.add(direction);
-        c.sub(crs);
+        c.sub(cross);
 
         d.set(position);
         d.add(direction);
-        d.add(crs);
+        d.add(cross);
 
     }
 
-    public void lerp(Vector2 targetDirection, Vector2 pC, Vector2 pD) {
+    public void lerp(Vector3 targetDirection, Vector3 pC, Vector3 pD) {
+        normalizeUp();
         this.direction.lerp(targetDirection, lerp);
-        this.crs.set(direction.nor()).rotateDeg(90);
-        this.direction.setLength(length);
-
         a.set(pD);
         b.set(pC);
 
         float distAB = a.dst(b);
-        float crsWidth = (distAB - width) * 0.5f;
-        this.crs.setLength(crsWidth);
+        float crossWidth = (distAB - width) * 0.5f;
+        this.cross.setLength(crossWidth);
 
-        c.set(b.x, b.y);
+        c.slerp(b, lerp);
         c.add(direction);
-        c.add(crs);
+        //c.add(cross);
 
-        d.set(a.x, a.y);
+        d.slerp(a, lerp);
         d.add(direction);
-        d.sub(crs);
+        d.sub(cross);
 
         if (distAB < c.dst(d)){
-            c.sub(crs);
-            d.add(crs);
+            c.sub(cross);
+            d.add(cross);
         }
 
     }
 
-    public void setPosition(float x, float y) {
-        this.position.set(x, y);
-    }
-
-    public void lerpColors(Segment previousSegment) {
+    public void lerpColors(Segment3d previousSegment) {
         if (colorStart == null)
             colorStart = new Color();
         if (colorEnd == null)
@@ -143,13 +157,9 @@ public class Segment {
             colorEnd.lerp(trail.getColorEnd(), 0.5f / trail.getSegmentSize());
     }
 
-    @Override
-    public String toString() {
-        return "Segment{" +
-                "\n\ta=" + a +
-                ",\n\t b=" + b +
-                ",\n\t c=" + c +
-                ",\n\t d=" + d +
-                "\n}";
+    public void normalizeUp() {
+        cross.set(direction).crs(up);
+        up.set(cross).crs(direction).nor();
     }
+
 }

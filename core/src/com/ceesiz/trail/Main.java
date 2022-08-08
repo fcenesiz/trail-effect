@@ -13,7 +13,7 @@ public class Main extends ApplicationAdapter {
     ImmediateModeRenderer20 renderer;
     private Matrix4 proj = new Matrix4();
     private Trail trail;
-    private Trail trail2;
+
 
     @Override
     public void create() {
@@ -31,8 +31,6 @@ public class Main extends ApplicationAdapter {
         trail.setPosition(x, y);
         trail.update(dt);
 
-        trail2.setPosition(x + 100, y + 100);
-        trail2.update(dt);
 
     }
 
@@ -51,16 +49,17 @@ public class Main extends ApplicationAdapter {
 
         renderer.begin(proj, GL20.GL_TRIANGLES);
         trail.render(renderer);
-        trail2.render(renderer);
+
         renderer.end();
     }
 
 
     private void createTrail(){
         trail = new Trail(
-                35, // segment size
-                10, // segment length
-                5, // segment width
+                10, // segment size
+                5, // segment length
+                5, // max segment length
+                15, // segment width
                 0.4f, // segment rotation lerp
                 0.1f, // trail position lerp
                 new Vector2(250, 250) // begin position
@@ -73,22 +72,6 @@ public class Main extends ApplicationAdapter {
 
         // create trail
         trail.create();
-
-        trail2 = new Trail(
-                35,
-                10,
-                7.5f,
-                0.1f,
-                0.1f,
-                new Vector2(350, 450)
-        );
-
-
-        Color colorStart2 = Color.YELLOW;
-        Color colorEnd2 = Color.GREEN;
-        trail2.setGradientColors(colorStart2, colorEnd2);
-
-        trail2.create();
     }
 
 }
