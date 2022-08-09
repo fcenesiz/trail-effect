@@ -1,9 +1,9 @@
-package com.ceesiz.trail;
+package com.ceesiz.trail.segment;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ImmediateModeRenderer20;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.ceesiz.trail.trail.Trail3d;
 
 public class Segment3d {
 
@@ -11,22 +11,22 @@ public class Segment3d {
     private int index;
 
     // Settings
-    float length;
-    float width;
-    float lerp;
-    Color colorStart;
-    Color colorEnd;
+    public float length;
+    public float width;
+    public float lerp;
+    public Color colorStart;
+    public Color colorEnd;
 
     // Coordinates
-    Vector3 position;
-    Vector3 direction;
-    Vector3 up = new Vector3();
-    Vector3 cross = new Vector3();
+    public Vector3 position;
+    public Vector3 direction;
+    public Vector3 up = new Vector3();
+    public Vector3 cross = new Vector3();
 
-    Vector3 a = new Vector3();
-    Vector3 b = new Vector3();
-    Vector3 c = new Vector3();
-    Vector3 d = new Vector3();
+    public Vector3 a = new Vector3();
+    public Vector3 b = new Vector3();
+    public Vector3 c = new Vector3();
+    public Vector3 d = new Vector3();
 
     public Segment3d(
             Trail3d trail,

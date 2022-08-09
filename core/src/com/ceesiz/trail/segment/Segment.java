@@ -1,25 +1,26 @@
-package com.ceesiz.trail;
+package com.ceesiz.trail.segment;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ImmediateModeRenderer20;
 import com.badlogic.gdx.math.Vector2;
+import com.ceesiz.trail.trail.Trail;
 
 public class Segment {
 
     private Trail trail;
     private int index;
-    Vector2 position = new Vector2();
-    Vector2 a = new Vector2();
-    Vector2 b = new Vector2();
-    Vector2 c = new Vector2();
-    Vector2 d = new Vector2();
-    float length;
-    Vector2 direction;
-    Vector2 crs = new Vector2();
-    float width;
-    float lerp = 0.25f;
-    Color colorStart;
-    Color colorEnd;
+    public Vector2 position = new Vector2();
+    public Vector2 a = new Vector2();
+    public Vector2 b = new Vector2();
+    public Vector2 c = new Vector2();
+    public Vector2 d = new Vector2();
+    public float length;
+    public Vector2 direction;
+    public Vector2 crs = new Vector2();
+    public float width;
+    public float lerp = 0.25f;
+    public Color colorStart;
+    public Color colorEnd;
 
     public Segment(Trail trail, int index, float x, float y, float lerp, float length, float width, Vector2 direction) {
         this.trail = trail;

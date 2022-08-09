@@ -7,8 +7,9 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ImmediateModeRenderer20;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
+import com.ceesiz.trail.trail.Trail;
 
-public class Main extends ApplicationAdapter {
+public class Example2dWithImmediateModeRenderer20 extends ApplicationAdapter {
 
     ImmediateModeRenderer20 renderer;
     private Matrix4 proj = new Matrix4();
@@ -56,7 +57,7 @@ public class Main extends ApplicationAdapter {
 
     private void createTrail(){
         trail = new Trail(
-                10, // segment size
+                20, // segment size
                 5, // segment length
                 5, // max segment length
                 15, // segment width
