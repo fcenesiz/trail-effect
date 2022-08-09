@@ -1,8 +1,10 @@
-# 2d Trail with ImmediateModeRenderer20
+### structure of the Trail
+![](trail.png )
+### 2d Trail with ImmediateModeRenderer20
 ![](2dImme.gif )
-# 3d Trail with ImmediateModeRenderer20
+### 3d Trail with ImmediateModeRenderer20
 ![](3dImme.gif)
-# 3d Trail with ModelBatch
+### 3d Trail with ModelBatch
 ![](3dBatch.gif)
 
 # Create Trail
