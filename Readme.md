@@ -8,7 +8,7 @@
 ![](3dBatch.gif)
 
 # Create Trail
-```
+```Java
         trail = new Trail(
                 35, // segment size
                 10, // segment length
@@ -27,7 +27,7 @@
         trail.create();
 ```
 # Update
-```
+```Java
         float x = Gdx.input.getX();
         float y = Gdx.graphics.getHeight() -  Gdx.input.getY();
 
@@ -35,7 +35,7 @@
         trail.update(dt);
 ```
 # Render
-```
+```Java
         Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT |
                 GL20.GL_DEPTH_BUFFER_BIT);
