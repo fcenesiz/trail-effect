@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.g3d.attributes.IntAttribute;
 import com.badlogic.gdx.graphics.g3d.utils.MeshPartBuilder;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.math.Vector3;
-import com.ceesiz.trail.segment.MeshSegment;
+import com.ceesiz.trail.trail.segment.MeshSegment;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
 import com.badlogic.gdx.graphics.glutils.ImmediateModeRenderer20;
 import com.badlogic.gdx.math.Vector3;
-import com.ceesiz.trail.segment.Segment3d;
 import com.ceesiz.trail.trail.Trail3d;
 
 public class Example3dWithImmediateModeRenderer20 extends ApplicationAdapter {

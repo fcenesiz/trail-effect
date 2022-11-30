@@ -41,19 +41,33 @@ allprojects {
 
 project(":desktop") {
     apply plugin: "java-library"
-
-
     dependencies {
         implementation project(":core")
         api "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
         
     }
+
+
 }
+
 
 project(":core") {
     apply plugin: "java-library"
+    apply plugin: "maven-publish"
 
+    publishing{
+        repositories {
+            maven {
+                name = "GitHubPackages"
+                url = "https://maven.pkg.github.com/fcenesiz/Trail"
+                credentials {
+                    username = System.getenv("GITHUB_ACTOR")
+                    password = System.getenv("GITHUB_TOKEN")
+                }
+            }
+        }
+    }
 
     dependencies {
         api "com.badlogicgames.gdx:gdx:$gdxVersion"

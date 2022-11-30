@@ -10,6 +10,8 @@ import com.badlogic.gdx.graphics.g3d.Material;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
+import com.badlogic.gdx.graphics.g3d.attributes.BlendingAttribute;
+import com.badlogic.gdx.graphics.g3d.attributes.IntAttribute;
 import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
 import com.badlogic.gdx.graphics.g3d.utils.MeshPartBuilder;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
@@ -25,6 +27,7 @@ public class Example3dWithModelBatch extends ApplicationAdapter {
     TrailModel trailModel;
     ModelInstance trailInstance;
     ModelInstance instanceXYZ;
+    ModelInstance instancePlane;
     Camera camera;
     CameraInputController cameraInputController;
 
@@ -33,6 +36,7 @@ public class Example3dWithModelBatch extends ApplicationAdapter {
         batch = new ModelBatch();
         setupCamera();
         setupXYZ(new ModelBuilder());
+        setupPlane(new ModelBuilder());
         trailInstance = new ModelInstance(
                 this.setupTrail(),
                 0, 0, 0
@@ -54,13 +58,14 @@ public class Example3dWithModelBatch extends ApplicationAdapter {
     @Override
     public void render() {
         this.update(Gdx.graphics.getDeltaTime());
-        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClearColor(1, 0, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT |
                 GL20.GL_DEPTH_BUFFER_BIT);
 
         batch.begin(camera);
         batch.render(Arrays.asList(
                 instanceXYZ,
+                instancePlane,
                 trailInstance
         ));
         batch.end();
@@ -136,4 +141,37 @@ public class Example3dWithModelBatch extends ApplicationAdapter {
                 0f
         );
     }
+
+    private void setupPlane(ModelBuilder modelBuilder) {
+        MeshPartBuilder meshPartBuilder; // mesh, noktalardan tanımlanmış 3d nesneyi ifade eder
+
+        modelBuilder.begin();
+
+        meshPartBuilder = modelBuilder.part(
+                "Line",
+                GL20.GL_TRIANGLES,
+                3,
+                new Material(
+                        new IntAttribute(IntAttribute.CullFace, 0),
+                        new BlendingAttribute(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA)
+                )
+        );
+
+        meshPartBuilder.setColor(Color.RED);
+        meshPartBuilder.triangle(
+                new Vector3(50, -5, 50),
+                new Vector3(-50, -5, 50),
+                new Vector3(-50, -5, -50)
+        );
+
+        Model model = modelBuilder.end();
+
+        instancePlane = new ModelInstance(
+                model,
+                0f,
+                0f,
+                0f
+        );
+    }
+
 }

@@ -1,4 +1,4 @@
-package com.ceesiz.trail.segment;
+package com.ceesiz.trail.trail.segment;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ImmediateModeRenderer20;

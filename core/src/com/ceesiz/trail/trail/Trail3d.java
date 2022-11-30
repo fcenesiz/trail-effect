@@ -4,7 +4,7 @@ package com.ceesiz.trail.trail;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ImmediateModeRenderer20;
 import com.badlogic.gdx.math.Vector3;
-import com.ceesiz.trail.segment.Segment3d;
+import com.ceesiz.trail.trail.segment.Segment3d;
 
 import java.util.ArrayList;
 import java.util.List;
