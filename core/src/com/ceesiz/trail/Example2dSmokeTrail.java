@@ -14,7 +14,7 @@ public class Example2dSmokeTrail extends ApplicationAdapter {
 
     ImmediateModeRenderer20 renderer;
     private Matrix4 proj = new Matrix4();
-    private SmokeTrail trail;
+    private Trail trail;
 
 
     @Override
