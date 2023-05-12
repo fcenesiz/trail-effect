@@ -1,4 +1,4 @@
-### structure of the Trail
+# Structure of the Trail
 ![](trail.png )
 ### 2d Trail with ImmediateModeRenderer20
 ![](2dImme.gif )
